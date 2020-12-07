@@ -16,9 +16,9 @@ clc
 %========= loading Wavelength & Bulk Refractive index of the metal =======%
 %=========================================================================%
 % if input data are saved in a excell sheet it can load as below
-Data=xlsread('Copy the address link of the initial data here');
+%Data=xlsread('/Users/masoudshabaninezhadnavrood/Desktop/DDA All, 09.15.2020/MPDDA- 1.0 copy/Au_Bulk_RI.xlsx');
 % if input data are m.file, it can be loaded: ...
-% Data=load('Copy the address link of the initial data here');
+Data=load('Copy the address link of the initial data here');
 
 Wavelength=Data(:,1);
 Re_n=Data(:,2);                 % Real part of the refractive index
@@ -133,10 +133,13 @@ elseif GPU==0
     ep_nps_eb=eps_nps./epsb;  % Ratio of metal-to-medium dielectric function
 end
 %=========================================================================%
-
+fprintf('\n choosing the Meshing: \n');
+fprintf('\1. Standard Meshing: The particle size is set to be equal to the distance between outer edges of two opposite boundary dipoles\n\n');
+fprintf('\2. Nonstandard Meshing:The particle size is set to be equal to the distance between the center of two opposite boundary dipoles\n');
+Meshing=input('\n Type 1 if it is standard meshing, otherwise type 2:');
 
     % Finding coordinate of the dipoles inside the rectangular block %
-[Max_x,Max_y,Max_z,N,Nx,Ny,Nz,r_block,X,Y,Z,d_inter]=Coordinates(GPU,d,Lx,Ly,Lz,...
+[Max_x,Max_y,Max_z,N,Nx,Ny,Nz,r_block,X,Y,Z,d_inter]=Coordinates1(Meshing,GPU,d,Lx,Ly,Lz,...
     d_eff,Structure,arrangement); 
 
 fprintf('\nSelecting the incident light:')
@@ -312,7 +315,7 @@ disp(CT);
 % disp(Q_SCAT);
 fprintf('\nTHE RESULTS CAN BE FOUND IN  Result_Spectra.mat FILE');
 
-save Result_Spectra d N r_eff t0_initial Total_Time Time_each Wavelength  Q_EXT Q_ABS Q_SCAT 
+save Result_Spectra20 d N r_eff t0_initial Total_Time Time_each Wavelength  Q_EXT Q_ABS Q_SCAT 
 %=========================================================================%
 
 
